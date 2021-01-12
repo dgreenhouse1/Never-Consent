@@ -269,22 +269,26 @@
         x.addEventListener('load', function(e) {
           if (this.responseText) {
             try {
-             e = JSON.parse(this.responseText)
-            actions = e.actions;
-            for (a in actions) {
-              f= new Function(a.js)
-              return f();
-            } catch (e) {
-              console.log('Experienced problem with NeverConsent SourcePoint functionality');
+              e = JSON.parse(this.responseText);
+              actions = e.actions;
+              for (a in actions) {
+                f= new Function(a.js);
+                return f();
+              } catch (e) {
+                console.log('Experienced problem with NeverConsent SourcePoint functionality');
+              }
             }
+          }
         });
         // Still need to add functions to gather the params dynamically from the page
-        sp_url = 'https://cdn.privacy-mgmt.com/consent/tcfv2/consent/v3/40?requestUUID=af6953ca-798f-4eb8-b3ba-3324d49d34a6&scriptV2=true&withSiteActions=true&consentUUID=21c09080-4507-43bc-a4ed-b6826f3ad696';
+        sp_url = 'https://cdn.privacy-mgmt.com/consent/tcfv2/consent/v3/40?requestUUID=af6953ca-798f-4eb8-b3ba-3324d49d34a6&scriptV2=true&withSiteActions=true&consentUUID=21c09080-4507-43bc-a4ed-b6826f3ad696';           
+        sp_data = ‘{"privacyManagerId":"132815","lan":"EN","categories":[],"vendors":[],"specialFeatures":[],"messageId":132815}‘
+
         x.open('POST', sp_url);
-        x.send();
-        
-        
-                
+        x.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        x.send(sp_data);
+      }
+      // End SourcePoint
       
     } catch (except) {
       console.error('[extension:Never-Consent] encountered a problem, please open an issue here https://github.com/MathRobin/Never-Consent/issues');
