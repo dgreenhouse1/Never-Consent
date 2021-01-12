@@ -262,6 +262,30 @@
         _iub.cs.options.callback.onBannerShown = () => _iub.cs.api.consentGiven('rejectButtonClick');
         clearInterval(kick);
       }
+      
+      // SourcePoint
+      if (window._sp_) {
+        x = new XmlHttpRequest();
+        x.addEventListener('load', function(e) {
+          if (this.responseText) {
+            try {
+             e = JSON.parse(this.responseText)
+            actions = e.actions;
+            for (a in actions) {
+              f= new Function(a.js)
+              return f();
+            } catch (e) {
+              console.log('Experienced problem with NeverConsent SourcePoint functionality');
+            }
+        });
+        // Still need to add functions to gather the params dynamically from the page
+        sp_url = 'https://cdn.privacy-mgmt.com/consent/tcfv2/consent/v3/40?requestUUID=af6953ca-798f-4eb8-b3ba-3324d49d34a6&scriptV2=true&withSiteActions=true&consentUUID=21c09080-4507-43bc-a4ed-b6826f3ad696';
+        x.open('POST', sp_url);
+        x.send();
+        
+        
+                
+      
     } catch (except) {
       console.error('[extension:Never-Consent] encountered a problem, please open an issue here https://github.com/MathRobin/Never-Consent/issues');
       console.error('[extension:Never-Consent]', except);
